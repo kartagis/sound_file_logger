@@ -1,0 +1,42 @@
+<?php
+
+/**
+ * @file
+ * Contains sound_file_logger.module.
+ */
+
+use Drupal\Core\Entity\EntityInterface;
+use Drupal\Core\Url;
+use Drupal\Core\Access\AccessResult;
+
+/**
+ * Implements hook_file_download().
+ */
+function sound_file_logger_file_download($uri) {
+  $mime_type = \Drupal::service('file.mime_type.guesser')->guessMimeType($uri);
+
+  // Check if this is an audio file
+  if (strpos($mime_type, 'audio/') === 0) {
+    // Get current user
+    $user = \Drupal::currentUser();
+
+    // Log the access
+    \Drupal::logger('sound_file_logger')->info(
+      'User @user accessed sound file @uri',
+      [
+        '@user' => $user->getAccountName(),
+        '@uri' => $uri,
+      ]
+    );
+  }
+  // Also log to custom table for better querying
+  $connection = \Drupal::database();
+  $connection->insert('sound_file_access_log')
+    ->fields([
+      'uid' => $user->id(),
+      'file_uri' => $uri,
+      'timestamp' => \Drupal::time()->getRequestTime(),
+      'ip_address' => \Drupal::request()->getClientIp(),
+    ])
+    ->execute();
+}

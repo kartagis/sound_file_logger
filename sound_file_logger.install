@@ -1,0 +1,49 @@
+<?php
+
+/**
+ * Implements hook_schema().
+ */
+function sound_file_logger_schema() {
+  $schema['sound_file_access_log'] = [
+    'description' => 'Tracks user access to sound files.',
+    'fields' => [
+      'id' => [
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ],
+      'uid' => [
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0,
+        'description' => 'The {users}.uid that accessed the file.',
+      ],
+      'file_uri' => [
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+        'description' => 'The URI of the accessed file.',
+      ],
+      'timestamp' => [
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+        'description' => 'The Unix timestamp when the file was accessed.',
+      ],
+      'ip_address' => [
+        'type' => 'varchar',
+        'length' => 45,
+        'not null' => TRUE,
+        'description' => 'IP address of the user.',
+      ],
+    ],
+    'primary key' => ['id'],
+    'indexes' => [
+      'user' => ['uid'],
+      'timestamp' => ['timestamp'],
+    ],
+  ];
+
+  return $schema;
+}

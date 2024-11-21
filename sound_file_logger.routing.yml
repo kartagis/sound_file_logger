@@ -1,0 +1,7 @@
+sound_file_logger.view_log:
+  path: '/admin/reports/sound-file-access'
+  defaults:
+    _controller: '\Drupal\sound_file_logger\Controller\SoundFileLogController::viewLog'
+    _title: 'Sound File Access Log'
+  requirements:
+    _permission: 'access sound file logs'

@@ -1,0 +1,4 @@
+access sound file logs:
+  title: 'Access sound file access logs'
+  description: 'View the log of who has accessed sound files.'
+  restrict access: true

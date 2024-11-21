@@ -1,0 +1,7 @@
+sound_file_logger.view_log_menu:
+  title: Sound File Logger kayıtları
+  description: 'Sound File Logger kayıtlarını görğn'
+  route_name: sound_file_logger.view_log
+  parent: system.admin_reports
+  weight: -1
+
